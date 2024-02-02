@@ -13,8 +13,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   } = await neynarClient.lookupUserByFid(payload.fid);
   if (user)
     return res.status(200).json({
+      userId: user.fid,
       isVerifiedUser: true,
-      fid: user.fid,
       exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30,
     });
 
