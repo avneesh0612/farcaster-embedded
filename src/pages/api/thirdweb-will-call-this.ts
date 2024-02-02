@@ -2,15 +2,17 @@ import neynarClient from "@/clients/neynar";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { payload } = JSON.parse(req.body);
-  console.log(payload);
+  const { payload } = req.body;
+  console.log("payload", payload);
+  const fid = JSON.parse(payload).fid;
+  console.log("fid", fid);
 
   if (!payload) return res.status(401).json({ message: "Invalid credentials" });
 
-  if (!payload.fid) return res.status(401).json({ message: "fid absent" });
+  if (!fid) return res.status(401).json({ message: "fid absent" });
   const {
     result: { user },
-  } = await neynarClient.lookupUserByFid(payload.fid);
+  } = await neynarClient.lookupUserByFid(fid);
   if (user)
     return res.status(200).json({
       userId: user.fid,
