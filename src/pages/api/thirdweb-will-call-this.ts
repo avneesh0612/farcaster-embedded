@@ -2,8 +2,8 @@ import neynarClient from "@/clients/neynar";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { payload } = req.body;
-  console.log(req.body, "req.body");
+  const { payload } = JSON.parse(req.body);
+  console.log(payload);
 
   if (!payload) return res.status(401).json({ message: "Invalid credentials" });
 
