@@ -1,0 +1,47 @@
+.header,
+.transparent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  width: 100%;
+  top: 0;
+  background: #131417;
+  z-index: 1;
+}
+
+.link {
+  text-decoration: none;
+  color: #eaeaea;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.transparent {
+  background: transparent;
+  box-shadow: none;
+}
+
+.headerRight {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  justify-content: center;
+}
+
+.pfp {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}

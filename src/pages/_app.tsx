@@ -1,5 +1,8 @@
+import { AppProvider } from "@/Context/AppContext";
+import {
+  ThirdwebProvider
+} from "@thirdweb-dev/react";
 import type { AppProps } from "next/app";
-import { ThirdwebProvider } from "@thirdweb-dev/react";
 import "../styles/globals.css";
 
 // This is the chain your dApp will work on.
@@ -9,12 +12,14 @@ const activeChain = "ethereum";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ThirdwebProvider
-      clientId={process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID}
-      activeChain={activeChain}
-    >
-      <Component {...pageProps} />
-    </ThirdwebProvider>
+    <AppProvider>
+      <ThirdwebProvider
+        clientId={process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID}
+        activeChain={activeChain}
+      >
+        <Component {...pageProps} />
+      </ThirdwebProvider>
+    </AppProvider>
   );
 }
 
