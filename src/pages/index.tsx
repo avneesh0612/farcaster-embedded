@@ -17,7 +17,7 @@ const Home: NextPage = () => {
 
     const res = await embeddedWallet.connect({
       strategy: "auth_endpoint",
-      payload: JSON.stringify({ userId: user.fid }),
+      payload: JSON.stringify({ fid: user.fid }),
       encryptionKey: user.signerUuid,
     });
 

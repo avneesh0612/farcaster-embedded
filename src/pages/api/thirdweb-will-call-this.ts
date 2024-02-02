@@ -7,13 +7,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (!payload) return res.status(401).json({ message: "Invalid credentials" });
 
+  if (!payload.fid) return res.status(401).json({ message: "fid absent" });
   const {
     result: { user },
-  } = await neynarClient.lookupUserByFid(payload.userId);
+  } = await neynarClient.lookupUserByFid(payload.fid);
   if (user)
     return res.status(200).json({
       isVerifiedUser: true,
-      userId: user.fid,
+      fid: user.fid,
       exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30,
     });
 
