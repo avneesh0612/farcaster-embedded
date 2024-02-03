@@ -16,7 +16,7 @@
     "@thirdweb-dev/react": "^4",
     "@thirdweb-dev/sdk": "^4",
     "@thirdweb-dev/wallets": "^2.4.8",
-    "ethers": "^6",
+    "ethers": "^5",
     "next": "^14",
     "next-csrf": "^0.2.1",
     "react": "^18.2",
