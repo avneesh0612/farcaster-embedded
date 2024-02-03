@@ -25,16 +25,10 @@ const Home: NextPage = () => {
       payload: JSON.stringify({
         signature: res.signature,
         message: res.message,
-        csrfToken: res.nonce,
+        nonce: res.nonce,
       }),
       encryptionKey: `0x${res.signature}`,
     });
-  }, []);
-
-  const getNonce = useCallback(async () => {
-    const nonce = "12345";
-    if (!nonce) throw new Error("Unable to generate nonce");
-    return nonce;
   }, []);
 
   return (
@@ -42,7 +36,6 @@ const Home: NextPage = () => {
       <Header />
       {address ? <p>{address}</p> : <p>No wallet associated with this acc. </p>}
       <SignInButton
-        nonce={getNonce}
         onSuccess={handleSuccess}
         onError={(err) => console.log(err)}
         onSignOut={() => disconnect()}

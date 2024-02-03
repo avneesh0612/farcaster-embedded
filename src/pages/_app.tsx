@@ -14,7 +14,7 @@ const config = {
   relay: "https://relay.farcaster.xyz",
   rpcUrl: "https://mainnet.optimism.io",
   siweUri: "http://example.com/login",
-  domain: "farcaster-embedded.thirdweb-example.com",
+  domain: "example.com",
 };
 
 function MyApp({ Component, pageProps }: AppProps) {

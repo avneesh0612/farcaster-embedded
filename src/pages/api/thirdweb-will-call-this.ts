@@ -3,11 +3,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { payload } = req.body;
-  const { signature, message, csrfToken } = JSON.parse(payload);
+  console.log(JSON.parse(payload));
+  const { signature, message, nonce } = JSON.parse(payload);
 
-  if (!payload) return res.status(401).json({ message: "Invalid credentials" });
-
-  if (!signature) return res.status(401).json({ message: "signature absent" });
+  if (!signature || !message || !nonce) {
+    return res.status(400).json({ error: "Invalid request" });
+  }
 
   const appClient = createAppClient({
     ethereum: viemConnector(),
@@ -17,9 +18,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     message: message as string,
     signature: signature as `0x${string}`,
     domain: "example.com",
-    nonce: csrfToken,
+    nonce,
   });
   const { success, fid } = verifyResponse;
+  console.log(verifyResponse);
 
   if (fid)
     return res.status(200).json({
