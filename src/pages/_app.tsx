@@ -1,4 +1,3 @@
-import { AppProvider } from "@/Context/AppContext";
 import { ThirdwebProvider, embeddedWallet } from "@thirdweb-dev/react";
 import type { AppProps } from "next/app";
 import "../styles/globals.css";
@@ -19,17 +18,20 @@ const config = {
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <AppProvider>
-      <AuthKitProvider config={config}>
-        <ThirdwebProvider
-          clientId={process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID}
-          activeChain={activeChain}
-          supportedWallets={[embeddedWallet()]}
-        >
-          <Component {...pageProps} />
-        </ThirdwebProvider>
-      </AuthKitProvider>
-    </AppProvider>
+    <AuthKitProvider config={config}>
+      <ThirdwebProvider
+        clientId={process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID}
+        activeChain={activeChain}
+        supportedWallets={[embeddedWallet()]}
+        sdkOptions={{
+          gasless: {
+            openzeppelin: ""
+          },
+        }}
+      >
+        <Component {...pageProps} />
+      </ThirdwebProvider>
+    </AuthKitProvider>
   );
 }
 
