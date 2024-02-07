@@ -1,8 +1,8 @@
-import { ThirdwebProvider, embeddedWallet } from "@thirdweb-dev/react";
-import type { AppProps } from "next/app";
-import "../styles/globals.css";
 import { AuthKitProvider } from "@farcaster/auth-kit";
 import "@farcaster/auth-kit/styles.css";
+import { ThirdwebProvider } from "@thirdweb-dev/react";
+import type { AppProps } from "next/app";
+import "../styles/globals.css";
 
 // This is the chain your dApp will work on.
 // Change this to the chain your app is built for.
@@ -22,12 +22,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ThirdwebProvider
         clientId={process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID}
         activeChain={activeChain}
-        supportedWallets={[embeddedWallet()]}
-        sdkOptions={{
-          gasless: {
-            openzeppelin: ""
-          },
-        }}
       >
         <Component {...pageProps} />
       </ThirdwebProvider>

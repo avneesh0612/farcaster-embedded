@@ -3,7 +3,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { payload } = req.body;
-  console.log(JSON.parse(payload));
   const { signature, message, nonce } = JSON.parse(payload);
 
   if (!signature || !message || !nonce) {
@@ -20,8 +19,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     domain: "example.com",
     nonce,
   });
-  const { success, fid } = verifyResponse;
-  console.log(verifyResponse);
+  const {  fid } = verifyResponse;
 
   if (fid)
     return res.status(200).json({

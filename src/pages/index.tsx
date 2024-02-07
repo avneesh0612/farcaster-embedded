@@ -6,42 +6,62 @@ import {
 } from "@farcaster/auth-kit";
 import {
   ConnectWallet,
+  Web3Button,
+  embeddedWallet,
   useAddress,
   useDisconnect,
-  useEmbeddedWallet
+  useSmartWallet,
 } from "@thirdweb-dev/react";
 import { NextPage } from "next";
 import { useCallback } from "react";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
-  const embeddedWallet = useEmbeddedWallet();
   const address = useAddress();
   const disconnect = useDisconnect();
   const { isAuthenticated } = useProfile();
   const { signOut } = useSignIn({});
+  const { connect } = useSmartWallet(embeddedWallet(), {
+    factoryAddress: "0x505c8823AA7E5A2Df5cff74f0E727D658f35785e",
+    gasless: true,
+  });
 
   const handleSuccess = useCallback(
     async (res: StatusAPIResponse) => {
-      await embeddedWallet.connect({
-        strategy: "auth_endpoint",
-        payload: JSON.stringify({
-          signature: res.signature,
-          message: res.message,
-          nonce: res.nonce,
-        }),
-        encryptionKey: `0x${res.signature}`,
+      await connect({
+        connectPersonalWallet: async (embeddedWallet) => {
+          const authResult = await embeddedWallet.authenticate({
+            strategy: "auth_endpoint",
+            payload: JSON.stringify({
+              signature: res.signature,
+              message: res.message,
+              nonce: res.nonce,
+            }),
+            encryptionKey: `0x${res.signature}`,
+          });
+          await embeddedWallet.connect({ authResult });
+        },
       });
     },
-    [embeddedWallet]
+    [connect]
   );
 
   return (
     <div className={styles.container}>
       {address ? (
         <>
-          <h1>{address}</h1>
           <ConnectWallet />
+          <Web3Button
+            contractAddress="0xC7982449f322c207d9E187FD42567B89eE08C009"
+            action={(contract) => contract.erc721.claim(1)}
+            onSuccess={(res) => {
+              alert("NFT claimed");
+              console.log(res);
+            }}
+            style={{ marginTop: "20px" }}
+          >
+            Claim NFT
+          </Web3Button>
         </>
       ) : (
         <>
