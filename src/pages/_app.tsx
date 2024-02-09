@@ -16,7 +16,7 @@ const activeChain = "mumbai";
 const config = {
   relay: "https://relay.farcaster.xyz",
   rpcUrl: "https://mainnet.optimism.io",
-  siweUri: "",
+  siweUri: "https://siwe.farcaster.xyz",
   domain: "thirdweb-example.com",
 };
 
