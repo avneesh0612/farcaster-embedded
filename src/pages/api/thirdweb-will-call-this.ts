@@ -4,31 +4,38 @@ import { NextApiRequest, NextApiResponse } from "next";
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { payload } = req.body;
   const { signature, message, nonce } = JSON.parse(payload);
+  console.log({ signature, message, nonce });
 
-  if (!signature || !message || !nonce) {
-    return res.status(400).json({ error: "Invalid request" });
-  }
+  try {
+    if (!signature || !message || !nonce) {
+      return res.status(400).json({ error: "Invalid request" });
+    }
 
-  const appClient = createAppClient({
-    ethereum: viemConnector(),
-  });
-
-  const verifyResponse = await appClient.verifySignInMessage({
-    message: message as string,
-    signature: signature as `0x${string}`,
-    domain: "example.com",
-    nonce,
-  });
-  const {  fid } = verifyResponse;
-
-  if (fid)
-    return res.status(200).json({
-      userId: String(fid),
-      isVerifiedUser: true,
-      exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30,
+    const appClient = createAppClient({
+      ethereum: viemConnector(),
     });
 
-  return res.status(200).json({ isVerifiedUser: false });
+    const verifyResponse = await appClient.verifySignInMessage({
+      message: message as string,
+      signature: signature as `0x${string}`,
+      domain: "example.com",
+      nonce,
+    });
+    const { fid } = verifyResponse;
+
+    if (fid) {
+      return res.status(200).json({
+        userId: String(fid),
+        isVerifiedUser: true,
+        exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30,
+      });
+    }
+
+    return res.status(200).json({ isVerifiedUser: false });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Internal server error" });
+  }
 };
 
 export default handler;

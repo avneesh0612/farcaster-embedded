@@ -28,20 +28,24 @@ const Home: NextPage = () => {
 
   const handleSuccess = useCallback(
     async (res: StatusAPIResponse) => {
-      await connect({
-        connectPersonalWallet: async (embeddedWallet) => {
-          const authResult = await embeddedWallet.authenticate({
-            strategy: "auth_endpoint",
-            payload: JSON.stringify({
-              signature: res.signature,
-              message: res.message,
-              nonce: res.nonce,
-            }),
-            encryptionKey: `0x${res.signature}`,
-          });
-          await embeddedWallet.connect({ authResult });
-        },
-      });
+      try {
+        await connect({
+          connectPersonalWallet: async (embeddedWallet) => {
+            const authResult = await embeddedWallet.authenticate({
+              strategy: "auth_endpoint",
+              payload: JSON.stringify({
+                signature: res.signature,
+                message: res.message,
+                nonce: res.nonce,
+              }),
+              encryptionKey: `0x${res.signature}`,
+            });
+            await embeddedWallet.connect({ authResult });
+          },
+        });
+      } catch (e) {
+        console.error(e);
+      }
     },
     [connect]
   );
@@ -75,6 +79,10 @@ const Home: NextPage = () => {
               onSuccess={handleSuccess}
               onError={(err) => console.log(err)}
               onSignOut={() => disconnect()}
+              onStatusResponse={(res) => {
+                console.log(res);
+              }}
+              debug={true}
             />
           )}
         </>
