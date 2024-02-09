@@ -8,3 +8,147 @@
   margin: 0 auto;
   padding: 100px 0;
 }
+
+.container p {
+  color: #646d7a;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.header {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 0;
+  right: 4%;
+  padding: 40px 0;
+  align-items: end;
+  justify-content: flex-end;
+}
+
+.button {
+  background-color: #7d65c2 !important;
+  color: #ededef !important;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 300px !important;
+  border: none;
+  margin: 20px 0;
+  outline: none;
+}
+
+.image {
+  margin: 20px 0px;
+}
+
+.loaderContainer {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.container h4 {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+  margin: 20px 0;
+}
+
+.loader {
+  width: 30px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 5px solid #3385ff;
+  animation: l20-1 0.8s infinite linear alternate, l20-2 1.6s infinite linear;
+}
+@keyframes l20-1 {
+  0% {
+    clip-path: polygon(50% 50%, 0 0, 50% 0%, 50% 0%, 50% 0%, 50% 0%, 50% 0%);
+  }
+  12.5% {
+    clip-path: polygon(
+      50% 50%,
+      0 0,
+      50% 0%,
+      100% 0%,
+      100% 0%,
+      100% 0%,
+      100% 0%
+    );
+  }
+  25% {
+    clip-path: polygon(
+      50% 50%,
+      0 0,
+      50% 0%,
+      100% 0%,
+      100% 100%,
+      100% 100%,
+      100% 100%
+    );
+  }
+  50% {
+    clip-path: polygon(
+      50% 50%,
+      0 0,
+      50% 0%,
+      100% 0%,
+      100% 100%,
+      50% 100%,
+      0% 100%
+    );
+  }
+  62.5% {
+    clip-path: polygon(
+      50% 50%,
+      100% 0,
+      100% 0%,
+      100% 0%,
+      100% 100%,
+      50% 100%,
+      0% 100%
+    );
+  }
+  75% {
+    clip-path: polygon(
+      50% 50%,
+      100% 100%,
+      100% 100%,
+      100% 100%,
+      100% 100%,
+      50% 100%,
+      0% 100%
+    );
+  }
+  100% {
+    clip-path: polygon(
+      50% 50%,
+      50% 100%,
+      50% 100%,
+      50% 100%,
+      50% 100%,
+      50% 100%,
+      0% 100%
+    );
+  }
+}
+@keyframes l20-2 {
+  0% {
+    transform: scaleY(1) rotate(0deg);
+  }
+  49.99% {
+    transform: scaleY(1) rotate(135deg);
+  }
+  50% {
+    transform: scaleY(-1) rotate(0deg);
+  }
+  100% {
+    transform: scaleY(-1) rotate(-135deg);
+  }
+}

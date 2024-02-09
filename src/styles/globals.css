@@ -17,6 +17,12 @@ a {
 }
 
 body {
-  color: #e7e8e8;
   background: #070707;
+}
+
+.fc-authkit-qrcode-dialog {
+  color: #646d7a;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }

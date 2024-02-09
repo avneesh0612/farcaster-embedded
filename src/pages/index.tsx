@@ -16,6 +16,7 @@ import {
 import { NextPage } from "next";
 import { useCallback, useState } from "react";
 import styles from "../styles/Home.module.css";
+import Image from "next/image";
 
 const Home: NextPage = () => {
   const address = useAddress();
@@ -56,39 +57,87 @@ const Home: NextPage = () => {
     [connect]
   );
 
+  if (connecting || connectionStatus === "connecting") {
+    return (
+      <div className={styles.container}>
+        <div className={styles.loaderContainer}>
+          <div className={styles.loader}></div>
+          <h4>Connecting smart wallet</h4>
+        </div>
+
+        <Image
+          src="/nft.png"
+          alt="Farcaster x thirdweb NFT"
+          width={300}
+          height={300}
+          className={styles.image}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className={styles.container}>
       {address ? (
         <>
-          <ConnectWallet />
+          <div className={styles.header}>
+            <ConnectWallet />
+          </div>
+
+          <p>✨ Mint your NFT</p>
+
+          <Image
+            src="/nft.png"
+            alt="Farcaster x thirdweb NFT"
+            width={300}
+            height={300}
+            className={styles.image}
+          />
+
           <Web3Button
-            contractAddress="0xC7982449f322c207d9E187FD42567B89eE08C009"
-            action={(contract) => contract.erc721.claim(1)}
-            onSuccess={(res) => {
+            contractAddress="0x8e15ED4e6f9B2a34DB335FE1319d07F3b96626e5"
+            action={(contract) => contract.erc1155.claim(0, 1)}
+            onSuccess={() => {
               alert("NFT claimed");
-              console.log(res);
             }}
-            style={{ marginTop: "20px" }}
+            className={styles.button}
           >
             Claim NFT
           </Web3Button>
         </>
       ) : (
         <>
-          {(connecting || connectionStatus === "connecting") && (
-            <p>Connecting to your smart wallet...</p>
-          )}
           {isAuthenticated ? (
             <>
-              <h1>Connected using farcaster</h1>
-              <button onClick={() => signOut()}>Sign Out</button>
+              <Image
+                src="/nft.png"
+                alt="Farcaster x thirdweb NFT"
+                width={300}
+                height={300}
+                className={styles.image}
+              />
+              <button onClick={() => signOut()} className={styles.button}>
+                Sign out of farcaster
+              </button>
             </>
           ) : (
-            <SignInButton
-              onSuccess={handleSuccess}
-              onError={(err) => console.log(err)}
-              onSignOut={() => disconnect()}
-            />
+            <>
+              <p>✨ Sign into Farcaster and mint an NFT</p>
+
+              <Image
+                src="/nft.png"
+                alt="Farcaster x thirdweb NFT"
+                width={300}
+                height={300}
+                className={styles.image}
+              />
+
+              <SignInButton
+                onSuccess={handleSuccess}
+                onError={(err) => console.error(err)}
+                onSignOut={() => disconnect()}
+              />
+            </>
           )}
         </>
       )}

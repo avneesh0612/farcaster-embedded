@@ -1,6 +1,10 @@
 import { AuthKitProvider } from "@farcaster/auth-kit";
 import "@farcaster/auth-kit/styles.css";
-import { ThirdwebProvider, embeddedWallet, smartWallet } from "@thirdweb-dev/react";
+import {
+  ThirdwebProvider,
+  embeddedWallet,
+  smartWallet,
+} from "@thirdweb-dev/react";
 import type { AppProps } from "next/app";
 import "../styles/globals.css";
 
@@ -12,8 +16,8 @@ const activeChain = "mumbai";
 const config = {
   relay: "https://relay.farcaster.xyz",
   rpcUrl: "https://mainnet.optimism.io",
-  siweUri: "http://example.com/login",
-  domain: "example.com",
+  siweUri: "",
+  domain: "thirdweb-example.com",
 };
 
 const personalWallet = embeddedWallet(); // or any other wallet

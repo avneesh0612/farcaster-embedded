@@ -4,7 +4,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { payload } = req.body;
   const { signature, message, nonce } = JSON.parse(payload);
-  console.log({ signature, message, nonce });
 
   try {
     if (!signature || !message || !nonce) {
@@ -18,7 +17,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const verifyResponse = await appClient.verifySignInMessage({
       message: message as string,
       signature: signature as `0x${string}`,
-      domain: "example.com",
+      domain: "thirdweb-example.com",
       nonce,
     });
     const { fid } = verifyResponse;
