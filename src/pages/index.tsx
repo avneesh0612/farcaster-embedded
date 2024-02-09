@@ -9,11 +9,12 @@ import {
   Web3Button,
   embeddedWallet,
   useAddress,
+  useConnectionStatus,
   useDisconnect,
   useSmartWallet,
 } from "@thirdweb-dev/react";
 import { NextPage } from "next";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
@@ -25,10 +26,13 @@ const Home: NextPage = () => {
     factoryAddress: "0x505c8823AA7E5A2Df5cff74f0E727D658f35785e",
     gasless: true,
   });
+  const [connecting, setConnecting] = useState(false);
+  const connectionStatus = useConnectionStatus();
 
   const handleSuccess = useCallback(
     async (res: StatusAPIResponse) => {
       try {
+        setConnecting(true);
         await connect({
           connectPersonalWallet: async (embeddedWallet) => {
             const authResult = await embeddedWallet.authenticate({
@@ -45,6 +49,8 @@ const Home: NextPage = () => {
         });
       } catch (e) {
         console.error(e);
+      } finally {
+        setConnecting(false);
       }
     },
     [connect]
@@ -69,6 +75,9 @@ const Home: NextPage = () => {
         </>
       ) : (
         <>
+          {(connecting || connectionStatus) && (
+            <p>Connecting to your smart wallet...</p>
+          )}
           {isAuthenticated ? (
             <>
               <h1>Connected using farcaster</h1>
@@ -79,10 +88,6 @@ const Home: NextPage = () => {
               onSuccess={handleSuccess}
               onError={(err) => console.log(err)}
               onSignOut={() => disconnect()}
-              onStatusResponse={(res) => {
-                console.log(res);
-              }}
-              debug={true}
             />
           )}
         </>
