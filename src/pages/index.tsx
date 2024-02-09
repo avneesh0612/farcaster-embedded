@@ -75,7 +75,7 @@ const Home: NextPage = () => {
         </>
       ) : (
         <>
-          {(connecting || connectionStatus) && (
+          {(connecting || connectionStatus === "connecting") && (
             <p>Connecting to your smart wallet...</p>
           )}
           {isAuthenticated ? (
